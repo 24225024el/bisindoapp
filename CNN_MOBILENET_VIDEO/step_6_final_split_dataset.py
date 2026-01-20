@@ -3,9 +3,6 @@ import json
 import shutil
 import random
 
-# =====================
-# KONFIGURASI
-# =====================
 SOURCE_DIR = "BISINDO_split_aug/train"
 TARGET_DIR = "BISINDO_FINAL"
 
@@ -15,15 +12,9 @@ TEST_RATIO = 0.15
 
 random.seed(42)
 
-# =====================
-# SETUP FOLDER
-# =====================
 for split in ["train", "val", "test"]:
     os.makedirs(os.path.join(TARGET_DIR, split), exist_ok=True)
 
-# =====================
-# AMBIL KELAS (SORTED!)
-# =====================
 classes = sorted([
     d for d in os.listdir(SOURCE_DIR)
     if os.path.isdir(os.path.join(SOURCE_DIR, d))
@@ -31,16 +22,12 @@ classes = sorted([
 
 class_indices = {cls: idx for idx, cls in enumerate(classes)}
 
-# Simpan mapping
 with open(os.path.join(TARGET_DIR, "class_indices.json"), "w") as f:
     json.dump(class_indices, f, indent=4)
 
 print("Class index disimpan:")
 print(class_indices)
 
-# =====================
-# SPLIT PER KELAS
-# =====================
 for cls in classes:
     src_cls = os.path.join(SOURCE_DIR, cls)
     images = [
@@ -77,4 +64,4 @@ for cls in classes:
         f"test={len(splits['test'])}"
     )
 
-print("\nSTEP 3 FINAL selesai")
+print("\nSTEP 6 FINAL selesai")

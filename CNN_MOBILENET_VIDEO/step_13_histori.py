@@ -1,6 +1,6 @@
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-from step6_data_generator_zscore import train_data, val_data
-from step7_model_mobilenet import model
+from step_8_data_generator_zscore import train_data, val_data
+from step_9_model_mobilenet import model
 import json
 
 EPOCHS = 30
@@ -25,9 +25,6 @@ history = model.fit(
     callbacks=callbacks
 )
 
-# =====================
-# SIMPAN HISTORY
-# =====================
 with open("history_bisindo_mobilenet.json", "w") as f:
     json.dump(history.history, f)
 

@@ -4,25 +4,15 @@ import json
 import numpy as np
 from tensorflow.keras.models import load_model
 
-# =====================
-# KONFIGURASI
-# =====================
 MODEL_PATH = "model_bisindo_mobilenet.h5"
 TEST_DIR = "test_images"
 IMG_SIZE = 224
 
-# =====================
-# LOAD CLASS INDEX
-# =====================
 with open("BISINDO_FINAL/class_indices.json") as f:
     class_indices = json.load(f)
 
-# index → label
 idx_to_label = {v: k for k, v in class_indices.items()}
 
-# =====================
-# LOAD MODEL
-# =====================
 model = load_model(MODEL_PATH)
 
 total = 0
@@ -30,9 +20,6 @@ correct = 0
 
 print("\n=== HASIL PENGUJIAN SEMUA FOLDER ===\n")
 
-# =====================
-# LOOP SETIAP FOLDER
-# =====================
 for true_label in sorted(os.listdir(TEST_DIR)):
     folder_path = os.path.join(TEST_DIR, true_label)
 
@@ -67,9 +54,6 @@ for true_label in sorted(os.listdir(TEST_DIR)):
 
             print(f"  {file:25s} → {pred_label} ({confidence*100:.2f}%) {status}")
 
-# =====================
-# AKURASI TOTAL
-# =====================
 accuracy = (correct / total) * 100 if total > 0 else 0
 
 print("\n==============================")

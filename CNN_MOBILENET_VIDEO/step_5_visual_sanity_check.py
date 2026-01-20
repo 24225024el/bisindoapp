@@ -3,9 +3,6 @@ import cv2
 import random
 import matplotlib.pyplot as plt
 
-# =====================
-# KONFIGURASI
-# =====================
 DATASET_DIR = "BISINDO_split_aug/train"
 OUTPUT_DIR = "sanity_check"
 
@@ -21,9 +18,6 @@ classes = sorted([
 
 print(f"Total kelas: {len(classes)}")
 
-# =====================
-# VISUAL CHECK
-# =====================
 for cls in classes:
     cls_path = os.path.join(DATASET_DIR, cls)
     images = [
@@ -56,4 +50,4 @@ for cls in classes:
 
     print(f"[OK] Sanity check saved: {save_path}")
 
-print("\nSTEP 2 FINAL selesai")
+print("\nSTEP 5 sanity check selesai")

@@ -2,7 +2,6 @@ import os
 import shutil
 import random
 
-# PATH (sesuaikan)
 SOURCE_DIR = "dataset_balanced"
 TARGET_DIR = "BISINDO_split"
 

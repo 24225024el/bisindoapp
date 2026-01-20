@@ -7,9 +7,6 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import confusion_matrix
 
-# =====================
-# KONFIGURASI
-# =====================
 BASE_DIR = "BISINDO_FINAL"
 MODEL_PATH = "model_bisindo_mobilenet.h5"
 IMG_SIZE = 224
@@ -18,24 +15,15 @@ BATCH_SIZE = 8
 MEAN = np.array([0.485, 0.456, 0.406])
 STD  = np.array([0.229, 0.224, 0.225])
 
-# =====================
-# LOAD CLASS INDEX
-# =====================
 with open(os.path.join(BASE_DIR, "class_indices.json")) as f:
     class_indices = json.load(f)
 
 class_names = [k for k, v in sorted(class_indices.items(), key=lambda x: x[1])]
 
-# =====================
-# Z-SCORE FUNCTION
-# =====================
 def zscore(img):
     img = img / 255.0
     return (img - MEAN) / STD
 
-# =====================
-# DATA GENERATOR (TEST)
-# =====================
 datagen = ImageDataGenerator(
     preprocessing_function=zscore
 )
@@ -48,22 +36,13 @@ test_data = datagen.flow_from_directory(
     shuffle=False
 )
 
-# =====================
-# LOAD MODEL
-# =====================
 model = load_model(MODEL_PATH)
 
-# =====================
-# PREDIKSI
-# =====================
 test_data.reset()
 y_true = test_data.classes
 y_pred_prob = model.predict(test_data)
 y_pred = np.argmax(y_pred_prob, axis=1)
 
-# =====================
-# CONFUSION MATRIX
-# =====================
 cm = confusion_matrix(y_true, y_pred)
 
 plt.figure(figsize=(16, 14))

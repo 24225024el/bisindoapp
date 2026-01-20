@@ -3,9 +3,6 @@ import cv2
 import random
 import numpy as np
 
-# =====================
-# KONFIGURASI
-# =====================
 SOURCE_DIR = "Citra_BISINDO"
 BALANCED_DIR = "dataset_balanced"
 TARGET_PER_CLASS = 120
@@ -17,37 +14,27 @@ np.random.seed(SEED)
 
 os.makedirs(BALANCED_DIR, exist_ok=True)
 
-# =====================
-# AUGMENTASI AMAN
-# =====================
 def safe_augment(img):
     h, w, _ = img.shape
 
-    # Flip horizontal (opsional)
     if random.random() < 0.5:
         img = cv2.flip(img, 1)
 
-    # Rotasi kecil
     angle = random.uniform(-8, 8)
     M = cv2.getRotationMatrix2D((w//2, h//2), angle, 1)
     img = cv2.warpAffine(img, M, (w, h), borderMode=cv2.BORDER_REFLECT)
 
-    # Brightness
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     hsv[..., 2] = np.clip(
         hsv[..., 2] + random.randint(-15, 15), 0, 255
     )
     img = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
 
-    # Blur ringan (opsional)
     if random.random() < 0.3:
         img = cv2.GaussianBlur(img, (3, 3), 0)
 
     return img
-
-# =====================
-# PROSES BALANCING
-# =====================
+     
 for label in sorted(os.listdir(SOURCE_DIR)):
     src_class = os.path.join(SOURCE_DIR, label)
     dst_class = os.path.join(BALANCED_DIR, label)
@@ -75,7 +62,6 @@ for label in sorted(os.listdir(SOURCE_DIR)):
 
         img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
 
-        # Augment hanya jika data asli habis
         if idx >= len(images):
             img = safe_augment(img)
 
@@ -87,4 +73,4 @@ for label in sorted(os.listdir(SOURCE_DIR)):
 
     print(f"[OK] {label}: {count} images")
 
-print("\n STEP 1 selesai: Dataset seimbang & aman")
+print("\n STEP 2 selesai: Dataset seimbang & aman")

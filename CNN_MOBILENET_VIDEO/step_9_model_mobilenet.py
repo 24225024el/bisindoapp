@@ -3,16 +3,10 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.optimizers import Adam
 
-# =====================
-# KONFIGURASI
-# =====================
 INPUT_SHAPE = (224, 224, 3)
 NUM_CLASSES = 26
 LR_INITIAL = 3e-4
 
-# =====================
-# BASE MODEL
-# =====================
 base_model = MobileNetV2(
     input_shape=INPUT_SHAPE,
     include_top=False,
@@ -22,9 +16,6 @@ base_model = MobileNetV2(
 for layer in base_model.layers:
     layer.trainable = False
 
-# =====================
-# CLASSIFIER
-# =====================
 x = base_model.output
 x = GlobalAveragePooling2D()(x)
 x = Dense(128, activation="relu")(x)
